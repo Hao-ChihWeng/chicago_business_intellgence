@@ -3,10 +3,9 @@ steps:
   - name: "gcr.io/cloud-builders/docker"
     args: ["pull", "dpage/pgadmin4"]
   - name: "gcr.io/cloud-builders/docker"
-    args:
-      ["tag", "dpage/pgadmin4", "gcr.io/chicago-business-intelligence/pgadmin"]
+    args: ["tag", "dpage/pgadmin4", "gcr.io/cbi-349000/pgadmin"]
   - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "gcr.io/chicago-business-intelligence/pgadmin"]
+    args: ["push", "gcr.io/cbi-349000/pgadmin"]
 
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     entrypoint: gcloud
@@ -16,11 +15,11 @@ steps:
         "deploy",
         "pg-admin",
         "--image",
-        "gcr.io/chicago-business-intelligence/pgadmin",
+        "gcr.io/cbi-349000/pgadmin",
         "--region",
         "us-central1",
         "--add-cloudsql-instances",
-        "flaskhelloworldappone-346602:us-central1:mypostgres",
+        "cbi-349000:us-central1:mypostgres",
         "--platform",
         "managed",
         "--port",
@@ -34,15 +33,9 @@ steps:
 
   # Steps to build a docker image for go-microservice, push it to container registry and deploy it to cloud run.
   - name: "gcr.io/cloud-builders/docker"
-    args:
-      [
-        "build",
-        "-t",
-        "gcr.io/chicago-business-intelligence/go-microservice",
-        ".",
-      ]
+    args: ["build", "-t", "gcr.io/cbi-349000/go-microservice", "."]
   - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "gcr.io/chicago-business-intelligence/go-microservice"]
+    args: ["push", "gcr.io/cbi-349000/go-microservice"]
 
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     entrypoint: gcloud
@@ -52,11 +45,11 @@ steps:
         "deploy",
         "go-microservice",
         "--image",
-        "gcr.io/chicago-business-intelligence/go-microservice",
+        "gcr.io/cbi-349000/go-microservice",
         "--region",
         "us-central1",
         "--add-cloudsql-instances",
-        "flaskhelloworldappone-346602:us-central1:mypostgres",
+        "cbi-349000:us-central1:mypostgres",
         "--platform",
         "managed",
         "--port",
@@ -64,5 +57,5 @@ steps:
         "--allow-unauthenticated",
       ]
 images:
-  - gcr.io/chicago-business-intelligence/go-microservice
-  - gcr.io/chicago-business-intelligence/pgadmin
+  - gcr.io/cbi-349000/go-microservice
+  - gcr.io/cbi-349000/pgadmin
